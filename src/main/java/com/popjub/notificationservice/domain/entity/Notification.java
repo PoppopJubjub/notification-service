@@ -1,6 +1,5 @@
 package com.popjub.notificationservice.domain.entity;
 
-import java.time.LocalDateTime;
 import java.util.UUID;
 
 import com.popjub.common.entity.BaseEntity;

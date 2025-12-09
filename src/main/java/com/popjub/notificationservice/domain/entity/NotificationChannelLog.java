@@ -75,6 +75,7 @@ public class NotificationChannelLog {
 		this.sentAt = LocalDateTime.now();
 	}
 
+	// TODO: 재시도 로직 구현
 	public void retry(
 		String responseCode,
 		String responseBody,

@@ -14,7 +14,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class NotificationRepositoryImpl implements NotificationRepository {
 
-	private final NotificationRepository notificationRepository;
+	private final NotificationJpaRepository notificationRepository;
 
 	@Override
 	public Notification save(Notification notification) {

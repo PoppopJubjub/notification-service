@@ -2,7 +2,13 @@ package com.popjub.notificationservice;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.Import;
+import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 
+import com.popjub.common.exception.GlobalExceptionHandler;
+
+@EnableJpaAuditing
+@Import(GlobalExceptionHandler.class)
 @SpringBootApplication
 public class NotificationServiceApplication {
 
