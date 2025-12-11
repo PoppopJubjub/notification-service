@@ -23,13 +23,14 @@ public class NotificationController {
 	private final NotificationService notificationService;
 
 	@PostMapping
-	public ApiResponse<CreateNotiResponse> createNotification(
-		@RequestHeader("X-User-Id") Long userId,
+	public ApiResponse<String> createNotification(
+		@RequestHeader("X-User-Id") Long userId, // admin
 		@RequestBody CreateNotiRequest request){
 
-		CreateNotiCommand command = request.toCommand(userId);
-		Notification notification= notificationService.createAndSend(command);
-		CreateNotiResponse response = CreateNotiResponse.from(notification);
+		String response = "no use";
+		// CreateNotiCommand command = request.toCommand();
+		// Notification notification= notificationService.createAndSend(command);
+		// CreateNotiResponse response = CreateNotiResponse.from(notification);
 
 		return ApiResponse.of(SuccessCode.CREATED, response);
 	}
