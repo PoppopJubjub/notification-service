@@ -10,17 +10,9 @@ public record CreateNotiRequest(
 	UUID reservationId,
 	ChannelType channel,
 	EventType type,
-	String webhookUrl,
 	String content
 ) {
-	public CreateNotiCommand toCommand(Long userId) {
-		return new CreateNotiCommand(
-			userId,
-			this.reservationId,
-			this.channel,
-			this.content,
-			this.webhookUrl,
-			this.type
-		);
-	}
+	// public CreateNotiCommand toCommand() {
+	// 	return new CreateNotiCommand();
+	// }
 }

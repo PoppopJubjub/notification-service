@@ -14,20 +14,25 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class NotificationRepositoryImpl implements NotificationRepository {
 
-	private final NotificationJpaRepository notificationRepository;
+	private final NotificationJpaRepository notificationJpaRepository;
 
 	@Override
 	public Notification save(Notification notification) {
-		return notificationRepository.save(notification);
+		return notificationJpaRepository.save(notification);
 	}
 
 	@Override
 	public boolean existsById(UUID id) {
-		return notificationRepository.existsById(id);
+		return notificationJpaRepository.existsByNotificationId(id);
 	}
 
 	@Override
 	public Optional<Notification> findById(UUID id) {
-		return notificationRepository.findById(id);
+		return notificationJpaRepository.findByNotificationId(id);
+	}
+
+	@Override
+	public void flush() {
+		notificationJpaRepository.flush();
 	}
 }

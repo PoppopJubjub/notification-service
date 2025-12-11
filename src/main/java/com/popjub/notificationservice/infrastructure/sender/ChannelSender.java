@@ -4,5 +4,5 @@ import com.popjub.notificationservice.domain.entity.ChannelType;
 
 public interface ChannelSender {
 	boolean supports(ChannelType channel);
-	ChannelSendResult send(String webhookUrl, String content);
+	ChannelSendResult send(String webhookUrl, String payload);
 }

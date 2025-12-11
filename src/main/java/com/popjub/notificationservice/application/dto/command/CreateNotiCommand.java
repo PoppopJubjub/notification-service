@@ -1,5 +1,7 @@
 package com.popjub.notificationservice.application.dto.command;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.UUID;
 
 import com.popjub.notificationservice.domain.entity.ChannelType;
@@ -8,28 +10,28 @@ import com.popjub.notificationservice.domain.entity.Notification;
 import com.popjub.notificationservice.domain.entity.NotificationChannelLog;
 
 public record CreateNotiCommand(
-	Long userId,
 	UUID reservationId,
-	ChannelType channel,
-	String content,
-	String webhookUrl,
-	EventType type
+	Long userId,
+	String storeName,
+	LocalDate reservationDate,
+	LocalTime startTime,
+	EventType eventType
 ) {
-	public Notification toNotification() {
+	public Notification toNotification(Long userId, ChannelType channel, String content) {
 		return Notification.of(
 			userId,
 			reservationId,
 			channel,
 			content,
-			type
+			eventType
 		);
 	}
-	public NotificationChannelLog toChannelLog(Notification notification) {
+	public NotificationChannelLog toChannelLog(Notification notification, ChannelType channel, String webhookUrl, String content) {
 		return NotificationChannelLog.of(
 			notification,
 			channel,
 			webhookUrl,
-			content
+			content // request body
 		);
 	}
 }
