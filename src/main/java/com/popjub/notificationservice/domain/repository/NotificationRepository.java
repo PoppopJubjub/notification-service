@@ -9,4 +9,5 @@ public interface NotificationRepository {
 	Notification save(Notification notification);
 	boolean existsById(UUID id);
 	Optional<Notification> findById(UUID id);
+	void flush();
 }
