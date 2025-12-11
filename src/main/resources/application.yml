@@ -5,7 +5,6 @@ spring:
   application:
     name: notification-service
 
-
   datasource:
     url: jdbc:postgresql://localhost:5432/poppopjubjub
     username: ${DB_USER}
@@ -29,9 +28,22 @@ eureka:
     service-url:
       defaultZone: http://localhost:18080/eureka/
 
-
 #    register-with-eureka: true
 #    fetch-registry: true
 #  instance:
 #    prefer-ip-address: true
 #    instance-id: ${spring.application.name}:${spring.application.instance_id:${random.value}}
+
+service:
+  user:
+    url: http://localhost:18081
+  reservation:
+    url: http://localhost:18083
+
+feign:
+  client:
+    config:
+      default:
+        connectTimeout: 3000
+        readTimeout: 3000
+
