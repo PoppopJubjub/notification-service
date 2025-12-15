@@ -4,7 +4,7 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.UUID;
 
-import com.popjub.notificationservice.application.dto.command.CreateNotiCommand;
+import com.popjub.notificationservice.application.dto.command.ReservationCompleteCommand;
 import com.popjub.notificationservice.domain.entity.EventType;
 
 public record ReservationNotificationRequest(
@@ -15,8 +15,8 @@ public record ReservationNotificationRequest(
 	LocalTime startTime,
 	EventType eventType
 ) {
-	public CreateNotiCommand toCommand() {
-		return new CreateNotiCommand(
+	public ReservationCompleteCommand toCommand() {
+		return new ReservationCompleteCommand(
 			this.reservationId,
 			this.userId,
 			this.storeName,
