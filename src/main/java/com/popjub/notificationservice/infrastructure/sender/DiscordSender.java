@@ -3,8 +3,6 @@ package com.popjub.notificationservice.infrastructure.sender;
 import org.springframework.http.*;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
-
-import com.popjub.notificationservice.application.dto.command.CreateNotiCommand;
 import com.popjub.notificationservice.domain.entity.ChannelType;
 
 import lombok.RequiredArgsConstructor;
