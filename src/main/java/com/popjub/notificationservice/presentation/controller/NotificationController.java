@@ -8,11 +8,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.popjub.common.enums.SuccessCode;
 import com.popjub.common.response.ApiResponse;
-import com.popjub.notificationservice.application.dto.command.CreateNotiCommand;
 import com.popjub.notificationservice.application.service.NotificationService;
-import com.popjub.notificationservice.domain.entity.Notification;
 import com.popjub.notificationservice.presentation.dto.request.CreateNotiRequest;
-import com.popjub.notificationservice.presentation.dto.response.CreateNotiResponse;
 
 import lombok.RequiredArgsConstructor;
 

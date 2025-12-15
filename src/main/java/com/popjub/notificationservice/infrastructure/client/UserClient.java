@@ -11,6 +11,6 @@ import com.popjub.notificationservice.infrastructure.client.dto.UserInfoResponse
 	url = "${service.user.url}"
 )
 public interface UserClient {
-	@GetMapping("internal/users/{userId}/urls")
-	UserInfoResponse getUserWebhook(@PathVariable("userId") Long userId);
+	@GetMapping("internal/users/{userId}")
+	UserInfoResponse getUserInfo(@PathVariable("userId") Long userId);
 }
