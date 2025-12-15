@@ -5,7 +5,7 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.popjub.notificationservice.application.dto.command.CreateNotiCommand;
+import com.popjub.notificationservice.application.dto.command.NotificationCommand;
 import com.popjub.notificationservice.domain.entity.ChannelType;
 import com.popjub.notificationservice.domain.entity.Notification;
 import com.popjub.notificationservice.domain.entity.NotificationChannelLog;
@@ -28,13 +28,14 @@ public class NotificationService {
 	private final UserClient userClient;
 
 	@Transactional
-	public Notification createAndSend(CreateNotiCommand command) {
+	public Notification createAndSend(NotificationCommand command) {
 		// 예약 서비스에서 userId 가져오기
 		Long targetUserId = command.userId();
 		// 유저 서비스에서 webhook URL 조회
-		UserInfoResponse webhookInfo = userClient.getUserWebhook(targetUserId);
+		UserInfoResponse userInfo = userClient.getUserInfo(targetUserId);
 
-		String payload = buildPayload(command);
+		String payload = command.buildPayload(userInfo);
+
 		// TODO: 채널 검증 로직 수정(유저 url받아올때 slack인지 discord인지 확인해야함 detectChannel)
 		ChannelType channel = ChannelType.DISCORD;
 
@@ -42,10 +43,9 @@ public class NotificationService {
 		notificationRepository.save(notification);
 		notificationRepository.flush();
 
-		NotificationChannelLog channelLog = command.toChannelLog(notification, channel, webhookInfo.discordUrl(), payload);
+		NotificationChannelLog channelLog = command.toChannelLog(notification, channel, userInfo.discordUrl(), payload);
 		logRepository.save(channelLog);
 		logRepository.flush();
-
 
 		ChannelSender sender = senders.stream()
 			.filter(s -> s.supports(channel))
@@ -53,7 +53,7 @@ public class NotificationService {
 			.orElseThrow(() -> new IllegalStateException("지원하지 않는 채널"));
 
 		ChannelSendResult result = sender.send(
-			webhookInfo.discordUrl(),
+			userInfo.discordUrl(),
 			payload
 		);
 
@@ -65,18 +65,5 @@ public class NotificationService {
 			channelLog.fail(result.responseCode(), result.responseBody(), result.errorMessage());
 		}
 		return notification;
-	}
-
-	// 알림 메시지 합성
-	private String buildPayload(CreateNotiCommand command) {
-		return """
-		{
-		  "content": "📢 예약 알림\\n매장: %s\\n예약일: %s\\n시작시간: %s"
-		}
-		""".formatted(
-				command.storeName(),
-				command.reservationDate(),
-				command.startTime()
-		);
 	}
 }

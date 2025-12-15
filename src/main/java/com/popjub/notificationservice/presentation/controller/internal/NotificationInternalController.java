@@ -6,8 +6,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.popjub.common.response.ApiResponse;
-import com.popjub.notificationservice.application.dto.command.CreateNotiCommand;
+import com.popjub.notificationservice.application.dto.command.CheckInCommand;
+import com.popjub.notificationservice.application.dto.command.ReservationCompleteCommand;
+import com.popjub.notificationservice.application.dto.command.NoShowCommand;
 import com.popjub.notificationservice.application.service.NotificationService;
+import com.popjub.notificationservice.presentation.dto.request.CheckInNotificationRequest;
+import com.popjub.notificationservice.presentation.dto.request.NoShowNotificationRequest;
 import com.popjub.notificationservice.presentation.dto.request.ReservationNotificationRequest;
 import lombok.RequiredArgsConstructor;
 
@@ -17,14 +21,27 @@ import lombok.RequiredArgsConstructor;
 public class NotificationInternalController {
 	private final NotificationService notificationService;
 
-	/**
-	 * 예약서비스 날린거 -> ReservationNotificationRequest로 들어옴!
-	 */
 	@PostMapping("/reservation/create")
 	public ApiResponse<?> getReservation(
 		@RequestBody ReservationNotificationRequest request) {
-		CreateNotiCommand command = request.toCommand();
+		ReservationCompleteCommand command = request.toCommand();
 		notificationService.createAndSend(command);
-		return ApiResponse.of("알림 생성 완료","");
+		return ApiResponse.of("예약 완료 알림 생성","");
+	}
+
+	@PostMapping("/reservation/check-in")
+	public ApiResponse<?> getCheckIn(
+		@RequestBody CheckInNotificationRequest request) {
+		CheckInCommand command = request.toCommand();
+		notificationService.createAndSend(command);
+		return ApiResponse.of("체크인 알림 생성","");
+	}
+
+	@PostMapping("/reservation/no-show")
+	public ApiResponse<?> getNoShow(
+		@RequestBody NoShowNotificationRequest request) {
+		NoShowCommand command = request.toCommand();
+		notificationService.createAndSend(command);
+		return ApiResponse.of("노쇼 알림 생성","");
 	}
 }
