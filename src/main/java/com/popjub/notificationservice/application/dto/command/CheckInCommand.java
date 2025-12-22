@@ -32,12 +32,21 @@ public record CheckInCommand(
 			content // request body
 		);
 	}
-	public String buildPayload(UserInfoResponse userInfo) {
+	public String buildDiscordPayload(UserInfoResponse userInfo) {
 		// payload 템플릿은 각 커맨드가 책임
 		return """
 		{
 		  "content": "✅ 체크인 완료\\n예약자: %s"
 		}
-		""".formatted(userInfo.username());
+		""".formatted(userInfo.userName());
+	}
+
+	@Override
+	public String buildSlackPayload(UserInfoResponse userInfo) {
+		return """
+		{
+		  "text": "✅ 체크인 완료\\n예약자: %s"
+		}
+		""".formatted(userInfo.userName());
 	}
 }

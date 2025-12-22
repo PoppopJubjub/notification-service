@@ -40,13 +40,27 @@ public record ReservationCompleteCommand(
 	}
 
 	@Override
-	public String buildPayload(UserInfoResponse userInfo) {
+	public String buildDiscordPayload(UserInfoResponse userInfo) {
 		return """
 		{
 		  "content": "📢 예약 알림\\n예약자: %s\\n매장: %s\\n예약일: %s\\n시작시간: %s"
 		}
 		""".formatted(
-			userInfo.username(),
+			userInfo.userName(),
+			storeName(),
+			reservationDate(),
+			startTime()
+		);
+	}
+
+	@Override
+	public String buildSlackPayload(UserInfoResponse userInfo) {
+		return """
+		{
+		  "text": "📢 예약 알림\\n예약자: %s\\n매장: %s\\n예약일: %s\\n시작시간: %s"
+		}
+		""".formatted(
+			userInfo.userName(),
 			storeName(),
 			reservationDate(),
 			startTime()

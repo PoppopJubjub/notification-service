@@ -10,7 +10,8 @@ public interface NotificationCommand {
 	Long userId();
 	EventType eventType();
 
-	String buildPayload(UserInfoResponse userInfo);
+	String buildSlackPayload(UserInfoResponse userInfo);
+	String buildDiscordPayload(UserInfoResponse userInfo);
 	Notification toNotification(Long targetUserId, ChannelType channel, String payload);
 	NotificationChannelLog toChannelLog(Notification notification, ChannelType channel, String targetUrl, String payload);
 }
