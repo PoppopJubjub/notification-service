@@ -36,13 +36,25 @@ public record NoShowCommand (
 	}
 
 	@Override
-	public String buildPayload(UserInfoResponse userInfo) {
+	public String buildDiscordPayload(UserInfoResponse userInfo) {
 		return """
 		{
 		  "content": "⚠️ 노쇼 경고\\n대상자: %s\\n노쇼 횟수: %s번"
 		}
 		""".formatted(
-			userInfo.username(),
+			userInfo.userName(),
+			noShowCount()
+		);
+	}
+
+	@Override
+	public String buildSlackPayload(UserInfoResponse userInfo) {
+		return """
+		{
+		  "text": "⚠️ 노쇼 경고\\n대상자: %s\\n노쇼 횟수: %s번"
+		}
+		""".formatted(
+			userInfo.userName(),
 			noShowCount()
 		);
 	}
